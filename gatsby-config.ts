@@ -23,11 +23,13 @@ const config: GatsbyConfig = {
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "pages",
-      "path": "./src/pages/"
+      "path": `./content`
     },
     // @ts-ignore
     __key: "pages"
-  }]
+  },
+  'gatsby-transformer-remark',
+  ]
 };
 
 export default config;
