@@ -1,4 +1,5 @@
-const  { addDatesToFiles } = require( "./gatsby-node");
+const  { addDatesToFiles } = require( "./helper");
+
 
 describe("Combine file information with dates", () => {
     it("successful", () => {

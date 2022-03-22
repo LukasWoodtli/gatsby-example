@@ -28,7 +28,24 @@ const config: GatsbyConfig = {
     // @ts-ignore
     __key: "pages"
   },
-  'gatsby-transformer-remark',
+  {
+    resolve: 'gatsby-transformer-remark',
+    options: {
+      plugins: [
+        {
+          resolve: `gatsby-remark-autolink-headers`,
+          options: {
+            icon: false,
+            className: `custom-anchor-class`,
+            maintainCase: true,
+            removeAccents: true,
+            isIconAfterHeader: false,
+          },
+        },
+        // `gatsby-remark-prismjs` should be placed after `gatsby-remark-autolink-headers`
+      ]
+    }
+  },
   ]
 };
 

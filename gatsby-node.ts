@@ -1,17 +1,7 @@
 const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
+//const { addDatesToFiles } = require('./tools/helper')
 
-
-export function addDatesToFiles(dates: any, files: any) {
-    return files.map((file: any) => {
-        const d: string | undefined = Object.keys(dates).find(date => file.filepath.endsWith(date));
-        if (!d) throw {name:"File not found", message:`No dates found for file '${file.filepath}'. Please update file with dates.`}
-        return {
-            ...file,
-            ...dates[d]
-        };
-    });
-}
 
 exports.onCreateNode = ({ node, getNode, actions }: any) => {
     const { createNodeField } = actions;
@@ -56,7 +46,10 @@ exports.createPages = async ({ actions, graphql, reporter }: any) => {
         return;
     }
 
-    BlogPostQuery.data.allMarkdownRemark.nodes.forEach(({fields: { slug, date }}: any) => {
+    let nodes = BlogPostQuery.data.allMarkdownRemark.nodes;
+    //nodes = addDatesToFiles({"a": {created: 9, modified: 3}}, nodes);
+
+    nodes.forEach(({fields: { slug, date }}: any) => {
         console.log(date);
         createPage({
             path: `blog${slug}`,
