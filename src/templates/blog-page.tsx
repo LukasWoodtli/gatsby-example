@@ -1,8 +1,9 @@
 import React from "react";
 import Layout from "../components/layout";
 import {graphql} from "gatsby";
-import {ListItemButton} from "gatsby-theme-material-ui";
-import {Drawer, List, ListItemText, Box } from "@mui/material";
+import {ListItemButton } from "gatsby-theme-material-ui";
+import {Drawer, List, ListItemText, Box, ListItem, Chip, Divider} from "@mui/material";
+import moment from "moment";
 
 const headingToHrefFragment = (heading: string): string => {
     return "#" + heading.replace(" ", "-");
@@ -56,6 +57,48 @@ const BlogPage = (props: any) => {
             <h2>Content</h2>
             <div dangerouslySetInnerHTML={{__html:html}}/>
             </Box>
+                <Drawer variant="permanent"
+                        anchor='right'
+                        sx={{
+                            width: 240,
+                            flexShrink: 0,
+                            [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
+                        }}>
+                    <Box sx={{ overflow: 'auto' }}>
+                        <List>
+                            <ListItem>
+                                <ListItemText>
+                                    Category
+                                </ListItemText>
+                                <Chip label="My Cat" variant="outlined" />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText>
+                                    Tags
+                                </ListItemText>
+                                {["Dog", "Hund", "Pes"].map((entry: string) => <Chip label={entry} />)}
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText>
+                                    Created
+                                </ListItemText>
+                                {moment(new Date(2022, 3, 21)).format('D. MMMM YYYY')}
+                            </ListItem>
+                            <Divider />                            <ListItem>
+                                <ListItemText>
+                                    Modified
+                                </ListItemText>
+                                {moment(new Date(2022, 3, 22)).format('D. MMMM YYYY')}
+                            </ListItem>
+                            <Divider />
+                        </List>
+                    </Box>
+                </Drawer>
+
+
+
             </Box>
         </Layout>
     );
