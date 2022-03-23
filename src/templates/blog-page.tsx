@@ -1,15 +1,51 @@
 import React from "react";
 import Layout from "../components/layout";
 import {graphql} from "gatsby";
+import {ListItemButton} from "gatsby-theme-material-ui";
+import {Drawer, List, ListItemText, Box } from "@mui/material";
+
+const headingToHrefFragment = (heading: string): string => {
+    return "#" + heading.replace(" ", "-");
+}
+const calculateTocEntryPadding = (depth: number): number => (
+    2 * (depth - 1)
+)
+
+
 
 const BlogPage = (props: any) => {
         const { data, pageContext } = props;
     console.log(pageContext);
-    const { blogpost: { frontmatter: {date, tags, title}, html, tableOfContents}} = data;
+    const { blogpost: { frontmatter: {date, tags, title}, html, headings}} = data;
+    console.log(headings);
     const shortDate = date.split("T")[0];
 
     return (
         <Layout>
+            <Box sx={{ display: 'flex' }}>
+            <Drawer variant="permanent"
+                    sx={{
+                        width: 240,
+                        flexShrink: 0,
+                        [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
+                    }}>
+                <Box sx={{ overflow: 'auto' }}>
+                <List>
+                    {headings.map((entry: any) => (
+                        <Box sx={{pl: calculateTocEntryPadding(entry.depth)}}>
+                        <ListItemButton key={entry.value}
+                                        to={headingToHrefFragment(entry.value)}>
+                            <ListItemText>
+                                {entry.value}
+                            </ListItemText>
+                        </ListItemButton>
+                        </Box>
+                    ))}
+                </List>
+                </Box>
+            </Drawer>
+
+            <Box component="main" sx={{ flexGrow: 1, p: 3}}>
             <h1>{title}</h1>
             <div className="flex items-center space-x-2">
                 <p>Date: {shortDate}</p>
@@ -17,9 +53,10 @@ const BlogPage = (props: any) => {
             <h2>Tags</h2>
             {tags}
             <h2>TOC</h2>
-            <div dangerouslySetInnerHTML={{__html:tableOfContents}}/>
             <h2>Content</h2>
             <div dangerouslySetInnerHTML={{__html:html}}/>
+            </Box>
+            </Box>
         </Layout>
     );
 }
@@ -32,8 +69,12 @@ query($slug: String!) {
             title
             tags
         }
+        headings {
+          value
+          depth
+        }
         html
-        tableOfContents
+
     }
 }
 `;

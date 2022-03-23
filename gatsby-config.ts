@@ -38,7 +38,7 @@ const config: GatsbyConfig = {
             icon: false,
             className: `custom-anchor-class`,
             maintainCase: true,
-            removeAccents: true,
+            removeAccents: false,
             isIconAfterHeader: false,
           },
         },
@@ -46,6 +46,7 @@ const config: GatsbyConfig = {
       ]
     }
   },
+  `gatsby-theme-material-ui`,
   ]
 };
 
