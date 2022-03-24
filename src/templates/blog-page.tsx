@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../components/layout";
 import {graphql} from "gatsby";
 import {ListItemButton } from "gatsby-theme-material-ui";
-import {Drawer, List, ListItemText, Box, ListItem, Chip, Divider} from "@mui/material";
+import {Drawer, List, ListItemText, Box, ListItem, Chip, Divider, Grid} from "@mui/material";
 import moment from "moment";
 
 const headingToHrefFragment = (heading: string): string => {
@@ -13,6 +13,14 @@ const calculateTocEntryPadding = (depth: number): number => (
 )
 
 
+const ChipGrid = (props: any)  => (
+    <Grid container spacing={1} justifyContent="flex-end">
+        {props.elements.map((entry: string) => <Grid item key={entry}><Chip label={entry} variant={props.variant}/></Grid>)}
+    </Grid>
+)
+
+
+
 
 const BlogPage = (props: any) => {
         const { data, pageContext } = props;
@@ -20,6 +28,8 @@ const BlogPage = (props: any) => {
     const { blogpost: { frontmatter: {date, tags, title}, html, headings}} = data;
     console.log(headings);
     const shortDate = date.split("T")[0];
+    let uniqueTags = [...new Set(tags)];
+    uniqueTags.sort();
 
     return (
         <Layout>
@@ -33,8 +43,8 @@ const BlogPage = (props: any) => {
                 <Box sx={{ overflow: 'auto' }}>
                 <List>
                     {headings.map((entry: any) => (
-                        <Box sx={{pl: calculateTocEntryPadding(entry.depth)}}>
-                        <ListItemButton key={entry.value}
+                        <Box sx={{pl: calculateTocEntryPadding(entry.depth)}} key={entry.value}>
+                        <ListItemButton
                                         to={headingToHrefFragment(entry.value)}>
                             <ListItemText>
                                 {entry.value}
@@ -66,27 +76,28 @@ const BlogPage = (props: any) => {
                         }}>
                     <Box sx={{ overflow: 'auto' }}>
                         <List>
-                            <ListItem>
+                            <ListItem key="category">
                                 <ListItemText>
                                     Category
                                 </ListItemText>
-                                <Chip label="My Cat" variant="outlined" />
+                                <ChipGrid elements={["My Cat"]} variant="outlined" />
                             </ListItem>
                             <Divider />
-                            <ListItem>
-                                <ListItemText>
+                            <ListItem key="tags">
+                                <ListItemText sx={{pr: 1}}>
                                     Tags
                                 </ListItemText>
-                                {["Dog", "Hund", "Pes"].map((entry: string) => <Chip label={entry} />)}
+                                <ChipGrid elements={uniqueTags} variant="filled"/>
                             </ListItem>
                             <Divider />
-                            <ListItem>
+                            <ListItem key="created-date">
                                 <ListItemText>
                                     Created
                                 </ListItemText>
                                 {moment(new Date(2022, 3, 21)).format('D. MMMM YYYY')}
                             </ListItem>
-                            <Divider />                            <ListItem>
+                            <Divider />
+                            <ListItem key="modified-date">
                                 <ListItemText>
                                     Modified
                                 </ListItemText>
