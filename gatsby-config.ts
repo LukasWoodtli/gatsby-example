@@ -47,13 +47,6 @@ const config: GatsbyConfig = {
     }
   },
   `gatsby-theme-material-ui`,
-  `gatsby-transformer-json`,
-  {
-    resolve: `gatsby-source-filesystem`,
-    options: {
-      path: `./timestamps.json`,
-    },
-  },
   ]
 };
 
