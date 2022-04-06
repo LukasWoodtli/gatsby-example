@@ -2,6 +2,7 @@ import * as React from "react"
 import Layout from "../components/layout";
 import moment from "moment";
 import {Grid, Paper, styled} from "@mui/material";
+import {StaticImage} from "gatsby-plugin-image";
 
 const Item = styled(Paper)(({ theme }) => ({
     spacing: 0,
@@ -15,6 +16,10 @@ const Item = styled(Paper)(({ theme }) => ({
 const IndexPage = () => {
   return (
     <Layout>
+        <StaticImage src={"../../assets/images/Fingeralphabet_W.jpg"}
+                     alt={"W-Logo"}
+                     placeholder="tracedSVG"
+        />
 
         <Grid container
               spacing={0}
